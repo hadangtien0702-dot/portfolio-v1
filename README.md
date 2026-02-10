@@ -1,29 +1,73 @@
-# Hướng dẫn Cài đặt Môi trường (Environment Setup Guide)
+# React + TypeScript + Vite
 
-Chào mừng bạn đến với VS Code!
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Tôi đã tạo một danh sách các tiện ích mở rộng (extensions) được khuyến nghị để giúp bạn bắt đầu.
+Currently, two official plugins are available:
 
-### Các tiện ích được đề xuất:
-1.  **ESLint & Prettier**: Giúp định dạng và kiểm tra lỗi code tự động.
-2.  **GitLens**: Quản lý phiên bản Git tốt hơn.
-3.  **Live Server**: Xem trước trang web của bạn ngay lập tức khi thay đổi code.
-4.  **Code Runner**: Chạy code nhanh chóng (Node.js, Python, C++, v.v.).
-5.  **Material Icon Theme**: Làm cho giao diện IDE đẹp hơn với các biểu tượng file.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-### Cài đặt:
-- Khi bạn mở thư mục này trong VS Code, bạn sẽ thấy thông báo đề xuất cài đặt các extensions này. Hãy chọn "Install All" (Cài đặt tất cả).
-- Nếu không thấy thông báo, hãy mở tab Extensions (Ctrl+Shift+X), nhập `@recommended` vào thanh tìm kiếm để xem danh sách.
+## React Compiler
 
-### Kiểm tra Công cụ đã cài đặt:
-- **Node.js**: Đã cài đặt (`v22.18.0`).
-- **Git**: Đã cài đặt (`2.51.2`).
-- **Python**: Chưa cài đặt. Nếu bạn muốn lập trình Python, hãy tải tại [python.org](https://www.python.org).
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### Bắt đầu:
-Bạn muốn làm gì tiếp theo?
-- **Web Development**: Tạo một trang web đơn giản (HTML/CSS/JS).
-- **Node.js**: Tạo một backend server.
-- **Python**: Cài đặt Python và viết script đầu tiên.
+## Expanding the ESLint configuration
 
-Hãy cho tôi biết để tôi hỗ trợ bạn nhé!
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
