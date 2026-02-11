@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 10 10 15;
+    --foreground: 255 255 255;
+    
+    --primary: 102 126 234;
+    --primary-foreground: 255 255 255;
+    
+    --secondary: 118 75 162;
+    --secondary-foreground: 255 255 255;
+    
+    --accent: 102 126 234;
+    --accent-foreground: 255 255 255;
+    
+    --border: 255 255 255 / 0.08;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+}
